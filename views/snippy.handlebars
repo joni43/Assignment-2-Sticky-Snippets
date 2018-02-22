@@ -1,0 +1,32 @@
+<!-- The view when the user is logged in -->
+<nav>
+    <ul>
+        <li><a href="snippet/create/">Create a new snippet!</a></li>
+        <li><a href="/logout">Log out</a></li>
+    </ul>
+</nav>
+
+<div>
+    <h3>Snippets</h3>
+    {{#if snippets }}
+        <ul>
+            {{#each snippets}}
+                <!--For each snippet in the array -->
+                <li> <b>{{text}}</b> created/updated by <b>{{createdAt}}</b>  <br>
+                    <pre class="prettyprint">{{code}}</pre>
+                    <a href="snippet/delete/{{id}}">Delete</a> - <a href="snippet/edit/{{id}}">Edit</a> </li>
+            {{/each}}
+        </ul>
+    {{else}}
+        <!--If the snippets array is empty -->
+        There are no snippets to show.
+    {{/if}}
+</div>
+
+
+{{!-- <ul>
+  {{#each todos}}
+  <li>{{ text}} - created: {{createdAt}}</li>
+  {{/each}}
+</ul> --}}
+

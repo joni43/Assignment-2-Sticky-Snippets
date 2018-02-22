@@ -1,0 +1,13 @@
+
+const mongoose = require('mongoose')
+
+// create user Schema & model
+var SnippetSchema = new mongoose.Schema({
+  text: {type: String, required: true},
+  createdAt: {type: Date, default: Date.now}
+})
+
+// Creating the model - just like an object
+let Snippet = mongoose.model('Snippet', SnippetSchema)
+
+module.exports = Snippet
