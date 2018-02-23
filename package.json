@@ -19,9 +19,16 @@
   },
   "homepage": "https://github.com/1dv023/jl224dq-examination-2#readme",
   "dependencies": {
+    "bcrypt":"*",
     "body-parser": "^1.18.2",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.3",
     "express": "^4.16.2",
+    "express-flash": "git://github.com/RGBboy/express-flash.git",
     "express-handlebars": "^3.0.0",
+    "express-session": "^1.15.6",
+    "express-validation": "^1.0.2",
+    "express-validator": "^5.0.1",
     "mongodb": "^3.0.2",
     "mongoose": "^5.0.6"
   },

@@ -1,3 +1,7 @@
+'user strict'
+/**
+ * Jonathan Nilsson
+ */
 
 const mongoose = require('mongoose')
 

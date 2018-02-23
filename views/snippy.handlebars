@@ -1,32 +1,28 @@
-<!-- The view when the user is logged in -->
-<nav>
-    <ul>
-        <li><a href="snippet/create/">Create a new snippet!</a></li>
-        <li><a href="/logout">Log out</a></li>
-    </ul>
-</nav>
+{{!-- <div class="container-create">
 
-<div>
-    <h3>Snippets</h3>
-    {{#if snippets }}
-        <ul>
-            {{#each snippets}}
-                <!--For each snippet in the array -->
-                <li> <b>{{text}}</b> created/updated by <b>{{createdAt}}</b>  <br>
-                    <pre class="prettyprint">{{code}}</pre>
-                    <a href="snippet/delete/{{id}}">Delete</a> - <a href="snippet/edit/{{id}}">Edit</a> </li>
-            {{/each}}
-        </ul>
-    {{else}}
-        <!--If the snippets array is empty -->
-        There are no snippets to show.
-    {{/if}}
-</div>
+    <div class="col s12 m6">
+        <div class="card blue-grey brown lighten-3, z-depth-5">
+            <div class="card-content white-text">
+                <span class="card-title">Create snippet</span>
+                <form class="form-create" action="/create" method="post">
+                    <label>Name your snippet:</label>
+                    <input type='text' class="snippet-name" name="name"/>
+                    <br>
+                    <textarea class="show-snippet" name="snippet"></textarea>
+                    <br>
+                    <button type="submit" class="btn btn-warning btn-lg">Save</button>
+                </form>
+            </div>
+            <p>
+        </div>
+    </div>
+</div> --}}
 
-
-{{!-- <ul>
-  {{#each todos}}
-  <li>{{ text}} - created: {{createdAt}}</li>
+<h1>Make Snippets</h1>
+ <ul>
+  {{#each snippet}}
+  <li>{{ text}} - created: {{createdAt}} <a href="snippy/delete/{{id}}">Remove</a></li>
   {{/each}}
-</ul> --}}
+</ul>
+<a href="snippy/create">Make new snippets</a>
 

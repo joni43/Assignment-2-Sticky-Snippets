@@ -1,4 +1,9 @@
-<form action="/register" method="post">
+ {{#if errors}}
+      {{#each errors}}
+        <div class="alert alert-danger">{{msg}}</div>
+      {{/each}}
+{{/if}}
+ <form action="/register" method="post">
   <div class="form-group">
     <label for="exampleInputEmail1">Account Name</label>
     <input type="text" class="form-control" id="exampleInputEmail1" name="username" aria-describedby="emailHelp" placeholder="Enter account name">
@@ -9,5 +14,7 @@
     <input type="password" class="form-control" id="exampleInputPassword1" name="password" placeholder="Password">
   </div>
   <button type="submit" class="btn btn-primary">Submit</button>
+
+
 </form>
 

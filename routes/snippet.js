@@ -5,6 +5,7 @@ const Snippet = require('../models/Snippet')
 
 router.route('/snippy')
 .get(function (req, res) {
+// TODO CHECK USER LOGED IN/ AUTHORIZE
   Snippet.find({}, function (error, data) {
     if (error) {
       req.session.flash = {
@@ -27,5 +28,16 @@ router.route('/snippy')
   })
     // res.send({type: 'GET'})
 })
+router.get('snippy/create')
+.get(function (req, res) {
+    // authorize(req, res, res.render('snippet/create'));
+    res.render('/create')
+})
+.post(function (request, response) {
+    let snippetText = request.body.SnippetText
 
+    let snippet = new Snippet({
+        text: snippetText
+    })
+})
 module.exports = router
