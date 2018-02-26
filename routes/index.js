@@ -1,11 +1,9 @@
-const express = require('express')
-const router = express.Router()
-const User = require('../models/user')
-// const Snippet = require('../models/snippet')
-// get a list of ninjas from the db
+var express = require('express')
+var router = express.Router()
 
+// Get Homepage
 router.get('/', function (req, res) {
-  res.render('home', {title: 'STARTPAGE NR 1'})
+  res.render('index')
 })
 
 router.get('snippy/create', function (req, res) {

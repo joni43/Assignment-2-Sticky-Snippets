@@ -1,7 +1,4 @@
 'user strict'
-/**
- * Jonathan Nilsson
- */
 
 const mongoose = require('mongoose')
 
@@ -15,3 +12,7 @@ var SnippetSchema = new mongoose.Schema({
 let Snippet = mongoose.model('Snippet', SnippetSchema)
 
 module.exports = Snippet
+
+module.exports.createSnippets = function (newSnippet, callback) {
+  newSnippet.save(callback)
+        }

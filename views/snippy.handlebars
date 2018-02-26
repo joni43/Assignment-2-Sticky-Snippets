@@ -1,28 +1,24 @@
-{{!-- <div class="container-create">
-
-    <div class="col s12 m6">
-        <div class="card blue-grey brown lighten-3, z-depth-5">
-            <div class="card-content white-text">
-                <span class="card-title">Create snippet</span>
-                <form class="form-create" action="/create" method="post">
-                    <label>Name your snippet:</label>
-                    <input type='text' class="snippet-name" name="name"/>
-                    <br>
-                    <textarea class="show-snippet" name="snippet"></textarea>
-                    <br>
-                    <button type="submit" class="btn btn-warning btn-lg">Save</button>
-                </form>
-            </div>
-            <p>
-        </div>
-    </div>
-</div> --}}
-
+{{!-- <form class="form-create" action="/create" method="post"></form>
+<div class="container">
+        <label>Title</label>
+        <input type="text" name="snippetTitle" value=""><br>
+        <label>Code</label>
+        <textarea class="materialize-textarea" name="snippetCode" value=""></textarea><br>
+        <button type="submit" >Create!</button>
+    </form>
+</div>
 <h1>Make Snippets</h1>
- <ul>
-  {{#each snippet}}
-  <li>{{ text}} - created: {{createdAt}} <a href="snippy/delete/{{id}}">Remove</a></li>
-  {{/each}}
-</ul>
-<a href="snippy/create">Make new snippets</a>
+ <ul> --}}
+     {{!-- {{#each snippet}}
+  <h1>{{title}}</h1>
+   <li>{{ text}} - created: {{createdAt}} <a href="snippy/delete/{{id}}">Remove</a></li>
+ {{/each}} --}}
+   Just give me a freaking snippet yo!
 
+<form action="/snippy" method="POST">
+  <input type="text" placeholder="text" name="text">
+  <button type="submit">Submit</button>
+</form>
+
+<br>
+<a href="snippy">Make new snippets</a>

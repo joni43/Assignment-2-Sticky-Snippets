@@ -1,39 +1,28 @@
 {
-  "name": "jl224dq-examination-2",
+  "name": "jl224dq-examination-2-69e15894a28f6511ef5bf28f3d96c39f1948f793",
   "version": "1.0.0",
-  "description": "",
+  "description": "Examination 2",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js",
     "dev": "nodemon app.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/1dv023/jl224dq-examination-2.git"
-  },
-  "author": "",
+  "author": "Jonathan Nilsson",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/1dv023/jl224dq-examination-2/issues"
-  },
-  "homepage": "https://github.com/1dv023/jl224dq-examination-2#readme",
   "dependencies": {
-    "bcrypt": "*",
-    "bcrypt-nodejs": "0.0.3",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.2",
     "connect-flash": "^0.1.1",
     "cookie-parser": "^1.4.3",
     "express": "^4.16.2",
-    "express-flash": "git://github.com/RGBboy/express-flash.git",
     "express-handlebars": "^3.0.0",
+    "express-messages": "^1.0.1",
     "express-session": "^1.15.6",
-    "express-validation": "^1.0.2",
-    "express-validator": "^5.0.1",
-    "mongodb": "^3.0.2",
-    "mongoose": "^5.0.6"
-  },
-  "devDependencies": {
-    "nodemon": "^1.15.1"
+    "express-validator": "^5.0.2",
+    "mongodb": "^3.0.3",
+    "mongojs": "^2.5.0",
+    "mongoose": "^5.0.7",
+    "nodemon": "^1.15.1",
+    "path": "^0.12.7"
   }
 }
