@@ -7,18 +7,36 @@ const Snippet = require('../models/Snippet')
 
 router.get('/snippy', (req, res) => {
   res.render('snippy')
-  let CollectedSnippets = db.collection('snippy').find().toArray(function(err, results) {
-    console.log(results)
-  })
 })
 router.post('/snippy', (req, res) => {
-  db.collection('snippy').save(req.body, (err, result) => {
-    if (err) return console.log(err)
+  let text = req.body.text
 
-    console.log('saved to database')
-    res.redirect('/')
+  // Create object to save
+  let snip = new Snippet({
+    text: text
+  })
+  snip.save().then(function () {
+    // Successful
+    res.redirect('/snippy')
+  }).catch(function (err) {
+    console.log(err.message)
+
+    res.redirect('snippy')
   })
 })
+//router.delete('delete/:id')
+//   let CollectedSnippets = db.collection('snippy').find().toArray(function(err, results) {
+//     console.log(results)
+//   })
+// })
+// router.post('/snippy', (req, res) => {
+//   db.collection('snippy').save(req.body, (err, result) => {
+//     if (err) return console.log(err)
+// console.log(req.body)
+//     console.log('saved to database')
+//     res.redirect('/')
+//   })
+// })
 
 //   router.get('/snippy', function(req, res, next){
 //     db.tasks.find(function(err, tasks){

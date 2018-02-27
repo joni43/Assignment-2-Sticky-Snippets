@@ -16,9 +16,17 @@
    Just give me a freaking snippet yo!
 
 <form action="/snippy" method="POST">
-  <input type="text" placeholder="text" name="text">
+  {{!-- <input type="text" placeholder="text" name="text">
+</form> --}}
+ <div class="form-group">
+    <textarea class="form-control" id="exampleFormControlTextarea1" name="text" rows="3"></textarea>
+  </div>
   <button type="submit">Submit</button>
-</form>
-
+  </form>
 <br>
+<ul>
+  {{#each todo}}
+  <li>{{ text}} - Created: {{createdAt}} <a href ="Snippet/delete/{{id}}">Remove</a></li>
+  {{/each}}
+</ul>
 <a href="snippy">Make new snippets</a>

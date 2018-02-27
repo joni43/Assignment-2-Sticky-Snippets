@@ -27,43 +27,31 @@ app.set('view engine', 'handlebars')
 
 // BodyParser Middleware
 app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cookieParser())
 
+// CSS file
 app.use(express.static(path.join(__dirname, 'public')))
 
 // Express Session
 app.use(session({
-    secret: 'manhattan91',
-    saveUninitialized: true,
-    resave: true,
-        cookie: {
-    secure: false,
+  name: 'JontesCookie',
+  secret: 'manhattan91',
+  saveUninitialized: false,
+  resave: false,
+  cookie: {
     httpOnly: true,
     maxAge: 1000 * 60 * 60 * 24
-}
-}));
-
-// Express Validator.
-app.use(expressValidator({
-  errorFormatter: function(param, msg, value) {
-      var namespace = param.split('.')
-      , root    = namespace.shift()
-      , formParam = root;
-
-    while(namespace.length) {
-      formParam += '[' + namespace.shift() + ']'
-    }
-    return {
-      param : formParam,
-      msg   : msg,
-      value : value
-    }
   }
 }))
 
+// Express Validator.
+app.use(expressValidator({
+
+ }))
+
 // Connect Flash
-app.use(flash());
+app.use(flash())
 
 // Global Vars
 app.use(function (req, res, next) {
@@ -74,12 +62,11 @@ app.use(function (req, res, next) {
   next()
 })
 
-
 //
 app.use('/', routes, users, snippet)
 app.use('/users', users)
 
-// ------------------------------- Start APP 4000---------------------------------------
+// --------------------------- Start APP 4000---------------------------------------
 // Set Port
 app.listen(process.env.PORT || 2000, function () {
   console.log('Connected! Well done...Neo')
@@ -98,3 +85,4 @@ db.on('error', function () {
 db.once('open', function () {
   console.log('Sucesfully connect to mongoDB')
 })
+

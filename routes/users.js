@@ -7,11 +7,6 @@ router.get('/register', function (req, res) {
   res.render('register')
 })
 
-// Login
-router.get('/login', function (req, res) {
-  res.render('login')
-})
-
 // Register User
 router.post('/register', function (req, res) {
   var email = req.body.email
@@ -47,16 +42,28 @@ router.post('/register', function (req, res) {
     res.redirect('/users/login')
   }
 })
-router.post('/users/login', function (req, res) {
-  User.findOne({ username: req.body.username }, function (err, user) {
-    if (!user) {
-      return res.status(400).send()
-    }		else {
-      console.log('Hello. u logged in!')
-      res.redirect('/')
-    }
-  })
+// Login
+router.get('/login', function (req, res) {
+  res.render('login')
 })
+
+router.post('/login', function (req, res) {
+  req.checkBody('username', 'Username is required').notEmpty()
+  req.checkBody('password', 'Password is required').notEmpty()
+  User.findOne({ username: req.body.username }, function (err, user) {
+    if (err) {
+      return res.status(400).send()
+    }
+    if (user) {
+      // will have a new session here
+      req.session.user = user.username
+      console.log('Hello. u logged in!')
+      console.log(user.username)
+      // req.session.id = user._id
+    }
+    res.redirect('/')
+  })
+  })
 router.get('/logout', function (req, res) {
   if (req.session) {
 		// delete session object
@@ -66,7 +73,7 @@ router.get('/logout', function (req, res) {
 		  } else {
     return res.redirect('/')
 		  }
-  })
+    })
 	  }
 })
 

@@ -13,6 +13,6 @@ let Snippet = mongoose.model('Snippet', SnippetSchema)
 
 module.exports = Snippet
 
-module.exports.createSnippets = function (newSnippet, callback) {
-  newSnippet.save(callback)
-        }
+// module.exports.createSnippets = function (newSnippet, callback) {
+//   newSnippet.save(callback)
+// }
