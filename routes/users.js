@@ -9,13 +9,11 @@ router.get('/register', function (req, res) {
 
 // Register User
 router.post('/register', function (req, res) {
-  var email = req.body.email
   var username = req.body.username
   var password = req.body.password
 
  // Validation
-  req.checkBody('email', 'Email is required').notEmpty()
-  req.checkBody('email', 'Email is not valid').isEmail()
+
   req.checkBody('username', 'Username is required').notEmpty()
   req.checkBody('password', 'Password is required').notEmpty()
 
@@ -27,7 +25,6 @@ router.post('/register', function (req, res) {
     })
   } else {
     var newUser = new User({
-      email: email,
       username: username,
       password: password
     })
@@ -48,33 +45,39 @@ router.get('/login', function (req, res) {
 })
 
 router.post('/login', function (req, res) {
-  req.checkBody('username', 'Username is required').notEmpty()
-  req.checkBody('password', 'Password is required').notEmpty()
+  // req.checkBody('username', 'Username is required').notEmpty()
+ //  req.checkBody('password', 'Password is required').notEmpty()
   User.findOne({ username: req.body.username }, function (err, user) {
     if (err) {
       return res.status(400).send()
     }
-    if (user) {
-      // will have a new session here
-      req.session.user = user.username
-      console.log('Hello. u logged in!')
-      console.log(user.username)
-      // req.session.id = user._id
+    if (user === null) {
+      req.flash('error_msg', 'User are not registered!')
+      res.render('login')
+    }    else {
+      User.comparePassword(req.body.password, user.password, function (err, isMatch) {
+        if (isMatch) {
+          req.flash('success_msg', 'Logged in! Welcome.')
+          res.redirect('/')
+          console.log('you are the beast')
+        }
+        // console.log(isMatch)
+        // console.log(user.password)
+      })
     }
-    res.redirect('/')
   })
-  })
+})
 router.get('/logout', function (req, res) {
   if (req.session) {
-		// delete session object
+    // delete session object
     req.session.destroy(function (err) {
-		  if (err) {
-    return next(err)
-		  } else {
-    return res.redirect('/')
-		  }
+      if (err) {
+        return next(err)
+      } else {
+        return res.redirect('/')
+      }
     })
-	  }
+  }
 })
 
 module.exports = router
