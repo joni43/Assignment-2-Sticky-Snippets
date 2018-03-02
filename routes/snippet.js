@@ -2,21 +2,39 @@ const express = require('express')
 const router = express.Router()
 var mongojs = require('mongojs')
 var db = mongojs('mongodb://PhilDelfia:jontetomte12@ds012188.mlab.com:12188/development')
-// use model,snippet.js
+// use model - Snippet.js
 const Snippet = require('../models/Snippet')
 
+// Get and render url /snippy
 router.get('/snippy', (req, res) => {
-  res.render('snippy')
+
+  Snippet.find({}, function (error, data) {
+    let context = {
+      snippet: data.map(function (snippet) {
+        return {
+          text: snippet.text,
+          createdBy: snippet.createdBy,
+          createdAt: snippet.createdAt,
+          id: snippet._id
+        }
+      })
+    }
+    res.render('snippy', context)
+  })
 })
+// -------- Create (POST) ------------
 router.post('/snippy', (req, res) => {
   let text = req.body.text
-
   // Create object to save
   let snip = new Snippet({
-    text: text
+    text: text,
+    createdBy: req.session.user
+
   })
+  console.log(snip)
   snip.save().then(function () {
     // Successful
+    console.log(snip)
     res.redirect('/snippy')
   }).catch(function (err) {
     console.log(err.message)
@@ -24,7 +42,10 @@ router.post('/snippy', (req, res) => {
     res.redirect('snippy')
   })
 })
-//router.delete('delete/:id')
+
+// --------- Read (GET) ---------
+
+// router.delete('delete/:id')
 //   let CollectedSnippets = db.collection('snippy').find().toArray(function(err, results) {
 //     console.log(results)
 //   })

@@ -50,17 +50,27 @@ router.post('/login', function (req, res) {
   User.findOne({ username: req.body.username }, function (err, user) {
     if (err) {
       return res.status(400).send()
-    }
-    if (user === null) {
-      req.flash('error_msg', 'User are not registered!')
+    } if (user === null) {
+      // Error message are not flashing when user not find. WHY?
+      req.flash('error_msg', 'ERROR USER DO NOT EXIST')
       res.render('login')
-    }    else {
+    } else {
       User.comparePassword(req.body.password, user.password, function (err, isMatch) {
-        if (isMatch) {
-          req.flash('success_msg', 'Logged in! Welcome.')
-          res.redirect('/')
-          console.log('you are the beast')
+        if (err) {
+          return res.status(400).send()
         }
+        if (isMatch === false) {
+          req.flash('error_msg', 'ERROR USER DO NOT EXIST')
+          res.render('login')
+          console.log('Wrong password')
+        }
+        if (isMatch === true) {
+          req.flash('success_msg', 'Logged in! Welcome.')
+          res.redirect('snippy')
+          console.log('you are the log in')
+          req.session.user = user.username
+        }
+        console.log('----->', req.session.user)
         // console.log(isMatch)
         // console.log(user.password)
       })
@@ -68,12 +78,14 @@ router.post('/login', function (req, res) {
   })
 })
 router.get('/logout', function (req, res) {
+
   if (req.session) {
     // delete session object
     req.session.destroy(function (err) {
       if (err) {
-        return next(err)
+        return next (err)
       } else {
+        console.log('U logged out!')
         return res.redirect('/')
       }
     })

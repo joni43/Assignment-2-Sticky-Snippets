@@ -35,7 +35,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 // Express Session
 app.use(session({
-  name: 'JontesCookie',
+  name: 'jontesCookie',
   secret: 'manhattan91',
   saveUninitialized: false,
   resave: false,
@@ -43,8 +43,8 @@ app.use(session({
     httpOnly: true,
     maxAge: 1000 * 60 * 60 * 24
   }
-}))
 
+}))
 // Express Validator.
 app.use(expressValidator({
 
