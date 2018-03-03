@@ -1,4 +1,5 @@
 const express = require('express')
+var users = require('./users')
 const router = express.Router()
 var mongojs = require('mongojs')
 var db = mongojs('mongodb://PhilDelfia:jontetomte12@ds012188.mlab.com:12188/development')
@@ -7,34 +8,37 @@ const Snippet = require('../models/Snippet')
 
 // Get and render url /snippy
 router.get('/snippy', (req, res) => {
-
   Snippet.find({}, function (error, data) {
     let context = {
       snippet: data.map(function (snippet) {
         return {
           text: snippet.text,
-          createdBy: snippet.createdBy,
           createdAt: snippet.createdAt,
+          createdBy: snippet.createdBy,
           id: snippet._id
         }
       })
     }
+    // console.log(context.createdBy)
+
     res.render('snippy', context)
   })
 })
 // -------- Create (POST) ------------
 router.post('/snippy', (req, res) => {
+  console.log('AAAAA', req.session.user)
   let text = req.body.text
   // Create object to save
   let snip = new Snippet({
     text: text,
     createdBy: req.session.user
-
   })
-  console.log(snip)
+    console.log(snip.text)
+
+
+
   snip.save().then(function () {
     // Successful
-    console.log(snip)
     res.redirect('/snippy')
   }).catch(function (err) {
     console.log(err.message)

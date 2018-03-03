@@ -68,23 +68,26 @@ router.post('/login', function (req, res) {
           req.flash('success_msg', 'Logged in! Welcome.')
           res.redirect('snippy')
           console.log('you are the log in')
-          req.session.user = user.username
         }
-        console.log('----->', req.session.user)
+        console.log('--------------->', req.session.user)
         // console.log(isMatch)
         // console.log(user.password)
       })
+      req.session.user = user.username
     }
   })
 })
 router.get('/logout', function (req, res) {
+  console.log(res)
 
   if (req.session) {
+    console.log(req.session)
     // delete session object
     req.session.destroy(function (err) {
       if (err) {
         return next (err)
       } else {
+        console.log(req.session)
         console.log('U logged out!')
         return res.redirect('/')
       }
