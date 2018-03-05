@@ -1,6 +1,5 @@
 var bodyParser = require('body-parser')
 var cookieParser = require('cookie-parser')
-var flash = require('connect-flash')
 var path = require('path')
 // ---- Express modules ----------
 var express = require('express')
@@ -47,18 +46,11 @@ app.use(session({
 }))
 // Express Validator.
 app.use(expressValidator({
-
- }))
-
-// Connect Flash
-app.use(flash())
-
-// Global Vars
-app.use(function (req, res, next) {
-  res.locals.success_msg = req.flash('success_msg')
-  res.locals.error_msg = req.flash('error_msg')
-  res.locals.error = req.flash('error')
-  res.locals.user = req.user || null
+}))
+app.use((req, res, next) => {
+  // if there's a flash message in the session request, make it available in the response, then delete it
+  res.locals.flash = req.session.flash
+  delete req.session.flash
   next()
 })
 

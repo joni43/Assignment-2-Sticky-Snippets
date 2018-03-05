@@ -33,9 +33,7 @@ router.post('/register', function (req, res) {
       if (err) throw err
       console.log(user)
     })
-
-    req.flash('success_msg', 'You are registered and can now login')
-
+    req.session.flash = { type: 'success', text: 'You are registered and can now login' }
     res.redirect('/users/login')
   }
 })
@@ -52,28 +50,29 @@ router.post('/login', function (req, res) {
       return res.status(400).send()
     } if (user === null) {
       // Error message are not flashing when user not find. WHY?
-      req.flash('error_msg', 'ERROR USER DO NOT EXIST')
       res.render('login')
+      //req.session.flash = { type: 'danger', text: 'Incorrect username!' }
     } else {
       User.comparePassword(req.body.password, user.password, function (err, isMatch) {
         if (err) {
           return res.status(400).send()
         }
-        if (isMatch === false) {
-          req.flash('error_msg', 'ERROR USER DO NOT EXIST')
+        else if (isMatch === false) {
           res.render('login')
+          req.session.flash = { type: 'danger', text: 'Incorrect password!' }
           console.log('Wrong password')
         }
         if (isMatch === true) {
-          req.flash('success_msg', 'Logged in! Welcome.')
+          req.session.flash = { type: 'success', text: 'Logged in!' }
+          req.session.user = user.username
           res.redirect('snippy')
           console.log('you are the log in')
         }
         console.log('--------------->', req.session.user)
+        // req.session.user = user.username
         // console.log(isMatch)
         // console.log(user.password)
       })
-      req.session.user = user.username
     }
   })
 })

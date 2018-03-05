@@ -12,8 +12,12 @@
 {{#if snippet}}
 <ul>
   {{#each snippet}}
-  <li>{{ text}} -- CreatedBy : {{createdBy}} --- Created: {{createdAt}}  <a href ="Snippet/delete/{{id}}">Remove</a></li>
+  <li>{{ text}} -- CreatedBy : {{createdBy}} --- Created: {{createdAt}}  <a href ="/snippy/delete/{{id}}">Remove</a></li>
+
   {{/each}}
 </ul>
 {{/if}}
-<a href="snippy">Make new snippets</a>
+
+<a href="/snippet{{id}}/edit" type='button' class='btn btn-default btn-warning'>
+  Edit snippets
+  </a>
