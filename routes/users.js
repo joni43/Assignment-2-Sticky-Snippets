@@ -43,6 +43,7 @@ router.get('/login', function (req, res) {
 })
 
 router.post('/login', function (req, res) {
+  req.checkBody('username', 'Username is required').notEmpty()
   // req.checkBody('username', 'Username is required').notEmpty()
  //  req.checkBody('password', 'Password is required').notEmpty()
   User.findOne({ username: req.body.username }, function (err, user) {

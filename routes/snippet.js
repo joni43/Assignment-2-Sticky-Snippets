@@ -27,7 +27,6 @@ router.get('/snippy', (req, res) => {
 })
 // <-------- Create (POST) ------------>
 router.post('/snippy', (req, res) => {
-  console.log('AAAAA', req.session.user)
   let text = req.body.text
   // Create object to save
   let snip = new Snippet({
@@ -45,23 +44,33 @@ router.post('/snippy', (req, res) => {
 })
 // <---------DELETE------------->
 router.route('/snippy/delete/:id').get((req, res, next) => {
+  console.log(req.session.user)
   if (req.session && req.session.user) {
-    console.log(context)
     res.render('delete', {id: req.params.id})
+    console.log(req.session.user)
   } else {
     res.render('Errors/401')
-    console.log('not logged in')
   }
 })
+
+  // if (req.session && req.session.user) {
+    // res.render('delete', {id: req.params.id})
 .post(function (req, res) {
-  Snippet.findOneAndRemove({_id: req.params.id}, function (error) {
+  Snippet.findOneAndRemove({_id: req.params.id}, function (error, data) {
     if (error) {
-      // res.render('Errors/404')
-      next(error)
+      res.redirect('Errors/404')
+      return
     }
-    req.session.flash = { type: 'success', text: 'Snippet deleted' }
-    res.redirect('/snippy')
+    if (data.createdBy !== req.session.user) {
+      res.render('delete', {id: req.params.id})
+      return (res)
+    } else {
+      res.render('Errors/401')
+      return (res)
+    }
   })
+  req.session.flash = { type: 'success', text: 'Snippet deleted' }
+  res.redirect('/snippy')
 })
 // if (snippet.createdby !== req.session.user) { hantera deta här} (edited)
 
@@ -71,6 +80,5 @@ router.route('/snippy/delete/:id').get((req, res, next) => {
 //     res.render('edit', {id: req.params.id})
 
 // )}
-
 
 module.exports = router
