@@ -72,15 +72,18 @@ router.post('/snippy/delete/:id', (req, res) => {
 })
 
 // // <------------------ EDIT --------------------->
-//  router.get('/snippy/edit/:id', (req, res, next) => {
-//   if (req.session && req.session.user) {
-//     res.redirect('edit', {id: req.params.id})
-//     Snippet.findOne({_id: req.params.id}, function (error, data) {
-//     console.log('down')
-//     }
-//   } else {
-//     res.render('Errors/401')
-//   }
+router.get('/snippy/edit/:id', (req, res, next) => {
+
+  // if (req.session && req.session.user) {
+  //   res.redirect('edit', {id: req.params.id})
+  //   Snippet.findOne({_id: req.params.id}, function (error, data) {
+  //     if (error) {
+  //       console.log(error)
+  //     }
+  //   console.log('down')
+  //   })
+  // }
+ })
 // })
 
 module.exports = router
