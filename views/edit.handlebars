@@ -1,10 +1,12 @@
-
 <div class="container">
     <form class="" action="/snippy/edit/{{id}}" method="post">
-        <label>Title</label>
+        <div class="form-group">
+            <textarea class="form-control" id="exampleFormControlTextarea1" name="text" rows="3">{{ text }}</textarea>
+        </div>
+        <button type="submit">Submit</button> {{!-- <label>Title</label>
         <input type="text" name="snippetTitle" value="">{{ text}}<br>
         <label>Code</label>
         <textarea class="materialize-textarea" name="snippetCode" value=""></textarea><br>
-        <button class="btn red lighten-2">Finish Editing!</button>
+        <button class="btn red lighten-2">Finish Editing!</button> --}}
     </form>
 </div>

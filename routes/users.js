@@ -65,7 +65,7 @@ router.post('/login', function (req, res) {
           res.redirect('/login')
         } if (isMatch === true) {
           req.session.flash = {
-            type: 'success', text: 'Logged in!' 
+            type: 'success', text: 'Logged in!'
           }
           req.session.user = user.username
           res.redirect('/snippy')

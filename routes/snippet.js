@@ -56,7 +56,6 @@ router.get('/snippy/delete/:id', (req, res, next) => {
     // res.render('delete', {id: req.params.id})
 router.post('/snippy/delete/:id', (req, res) => {
   Snippet.findOne({_id: req.params.id}, function (error, data) {
-    console.log('sadfd', data.createdBy)
     if (error) {
       res.render('Errors/404')
     }
@@ -70,20 +69,35 @@ router.post('/snippy/delete/:id', (req, res) => {
     }
   })
 })
-
 // // <------------------ EDIT --------------------->
 router.get('/snippy/edit/:id', (req, res, next) => {
-
-  // if (req.session && req.session.user) {
-  //   res.redirect('edit', {id: req.params.id})
-  //   Snippet.findOne({_id: req.params.id}, function (error, data) {
-  //     if (error) {
-  //       console.log(error)
-  //     }
-  //   console.log('down')
-  //   })
-  // }
- })
-// })
+  if (req.session.user) {
+    Snippet.findOne({_id: req.params.id}, function (error, data) {
+      if (error) {
+        console.log(error)
+      }
+      if (req.params.id) {
+        res.render('edit', {
+          id: data._id,
+          text: data.text
+        })
+      }
+    })
+  } else {
+    console.log('not logged in')
+  }
+})
+router.post('/snippy/edit/:id', (req, res) => {
+  let text = req.body.text
+  if (text.length > 0) {
+    Snippet.findByIdAndUpdate(req.params.id, {
+      text: Snippet.data,
+      createdAt: Date.now()
+    })
+    return res.redirect('/snippy')
+  } else {
+    req.session.flash = { type: 'danger', text: 'Cant have an empty Snippet!' }
+  }
+})
 
 module.exports = router
