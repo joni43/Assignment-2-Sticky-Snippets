@@ -12,7 +12,7 @@ router.post('/register', function (req, res) {
   var username = req.body.username
   var password = req.body.password
 
- // Validation
+  // Validation
 
   req.checkBody('username', 'Username is required').notEmpty()
   req.checkBody('password', 'Password is required').notEmpty()
@@ -43,31 +43,32 @@ router.get('/login', function (req, res) {
 })
 
 router.post('/login', function (req, res) {
-  req.checkBody('username', 'Username is required').notEmpty()
   // req.checkBody('username', 'Username is required').notEmpty()
- //  req.checkBody('password', 'Password is required').notEmpty()
+  //  req.checkBody('password', 'Password is required').notEmpty()
   User.findOne({ username: req.body.username }, function (err, user) {
     if (err) {
       return res.status(400).send()
-    } if (user === null) {
+    } if (!user) {
       // Error message are not flashing when user not find. WHY?
-      res.render('login')
-      //req.session.flash = { type: 'danger', text: 'Incorrect username!' }
+      req.session.flash = {
+        type: 'danger', text: 'Incorrect username!'
+      }
+      res.redirect('/login')
     } else {
       User.comparePassword(req.body.password, user.password, function (err, isMatch) {
         if (err) {
           return res.status(400).send()
-        }
-        else if (isMatch === false) {
-          res.render('login')
-          req.session.flash = { type: 'danger', text: 'Incorrect password!' }
-          console.log('Wrong password')
-        }
-        if (isMatch === true) {
-          req.session.flash = { type: 'success', text: 'Logged in!' }
+        } else if (isMatch === false) {
+          req.session.flash = {
+            type: 'danger', text: 'Incorrect password!'
+          }
+          res.redirect('/login')
+        } if (isMatch === true) {
+          req.session.flash = {
+            type: 'success', text: 'Logged in!'
+          }
           req.session.user = user.username
-          res.redirect('snippy')
-          console.log('you are the log in')
+          res.redirect('/snippy')
         }
         console.log('--------------->', req.session.user)
         // req.session.user = user.username

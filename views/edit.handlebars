@@ -1,0 +1,14 @@
+{{#if error}}
+    <p>
+        Error: {{error}}
+    </p>
+{{/if}}
+<div class="container">
+    <form class="" action="/snippet/edit/{{id}}" method="post">
+        <label>Title</label>
+        <input type="text" name="snippetTitle" value="">{{ text}}<br>
+        <label>Code</label>
+        <textarea class="materialize-textarea" name="snippetCode" value=""></textarea><br>
+        <button class="btn red lighten-2">Finish Editing!</button>
+    </form>
+</div>

@@ -22,7 +22,7 @@ router.get('/snippy', (req, res) => {
 
     // console.log(context.createdBy)
 
-    res.render('snippy', context)
+    return res.render('snippy', context)
   })
 })
 // <-------- Create (POST) ------------>
@@ -35,7 +35,7 @@ router.post('/snippy', (req, res) => {
   })
   snip.save().then(function () {
     // Successful
-    res.redirect('/snippy')
+    return res.redirect('/snippy')
   }).catch(function (err) {
     console.log(err.message)
 
@@ -43,11 +43,10 @@ router.post('/snippy', (req, res) => {
   })
 })
 // <---------DELETE------------->
-router.route('/snippy/delete/:id').get((req, res, next) => {
+router.get('/snippy/delete/:id', (req, res, next) => {
   console.log(req.session.user)
   if (req.session && req.session.user) {
     res.render('delete', {id: req.params.id})
-    console.log(req.session.user)
   } else {
     res.render('Errors/401')
   }
@@ -55,30 +54,33 @@ router.route('/snippy/delete/:id').get((req, res, next) => {
 
   // if (req.session && req.session.user) {
     // res.render('delete', {id: req.params.id})
-.post(function (req, res) {
-  Snippet.findOneAndRemove({_id: req.params.id}, function (error, data) {
+router.post('/snippy/delete/:id', (req, res) => {
+  Snippet.findOne({_id: req.params.id}, function (error, data) {
+    console.log('sadfd', data.createdBy)
     if (error) {
-      res.redirect('Errors/404')
-      return
+      res.render('Errors/404')
     }
-    if (data.createdBy !== req.session.user) {
-      res.render('delete', {id: req.params.id})
-      return (res)
+    if (data.createdBy === req.session.user) {
+      Snippet.findOneAndRemove({_id: req.params.id}).then(function () {
+        req.session.flash = { type: 'success', text: 'Snippet deleted' }
+        res.redirect('/snippy')
+      })
     } else {
-      res.render('Errors/401')
-      return (res)
+      res.render('Errors/403')
     }
   })
-  req.session.flash = { type: 'success', text: 'Snippet deleted' }
-  res.redirect('/snippy')
 })
-// if (snippet.createdby !== req.session.user) { hantera deta här} (edited)
 
-// <------------------ EDIT --------------------->
-// router.route('/snippy/edit/:id').put((req, res, next) => {
+// // <------------------ EDIT --------------------->
+//  router.get('/snippy/edit/:id', (req, res, next) => {
 //   if (req.session && req.session.user) {
-//     res.render('edit', {id: req.params.id})
-
-// )}
+//     res.redirect('edit', {id: req.params.id})
+//     Snippet.findOne({_id: req.params.id}, function (error, data) {
+//     console.log('down')
+//     }
+//   } else {
+//     res.render('Errors/401')
+//   }
+// })
 
 module.exports = router
