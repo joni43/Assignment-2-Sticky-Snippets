@@ -4,7 +4,6 @@ var bcrypt = require('bcryptjs')
 // create user Schema & model
 var usersSchema = new mongoose.Schema({
   username: {type: String, required: true, unique: true},
-  mail: {type: String},
   password: {type: String, required: true}
 })
 usersSchema.path('password').validate(function (password) {

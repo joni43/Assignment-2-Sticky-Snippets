@@ -47,7 +47,7 @@ router.post('/login', function (req, res) {
       return res.status(400).send()
     } if (!user) {
       req.session.flash = {
-        type: 'danger', text: 'Incorrect username!'
+        type: 'danger', text: 'Incorrect password or username!'
       }
       res.redirect('/login')
     } else {
@@ -56,7 +56,7 @@ router.post('/login', function (req, res) {
           return res.status(400).send()
         } else if (isMatch === false) {
           req.session.flash = {
-            type: 'danger', text: 'Incorrect password!'
+            type: 'danger', text: 'Incorrect password or username!'
           }
           res.redirect('/login')
         } if (isMatch === true) {
