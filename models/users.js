@@ -9,7 +9,6 @@ var usersSchema = new mongoose.Schema({
 usersSchema.path('password').validate(function (password) {
   return password.length >= 6
 }, 'password must be at least 6 characters')
-
 let User = mongoose.model('user', usersSchema)
 module.exports = User
 
