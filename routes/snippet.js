@@ -19,12 +19,10 @@ router.get('/snippy', (req, res) => {
         }
       })
     }
-    
-    // console.log(context.createdBy)
-
     return res.render('snippy', context)
   })
 })
+
 // <-------- Create (POST) ------------>
 router.post('/snippy', (req, res) => {
   let text = req.body.text
@@ -42,9 +40,8 @@ router.post('/snippy', (req, res) => {
     res.redirect('snippy')
   })
 })
-// <---------DELETE------------->
+// <--------------DELETE--------------------------->
 router.get('/snippy/delete/:id', (req, res, next) => {
-  console.log(req.session.user)
   if (req.session && req.session.user) {
     res.render('delete', {id: req.params.id})
   } else {
@@ -52,8 +49,6 @@ router.get('/snippy/delete/:id', (req, res, next) => {
   }
 })
 
-// if (req.session && req.session.user) {
-// res.render('delete', {id: req.params.id})
 router.post('/snippy/delete/:id', (req, res) => {
   Snippet.findOne({_id: req.params.id}, function (error, data) {
     if (error) {
@@ -98,12 +93,10 @@ router.post('/snippy/edit/:id', (req, res) => {
       return res.redirect('/snippy')
     })
     .catch(error => {
-      console.log(error);
-      // send Error here. This should be error regarding to the database error, maybe timeout connection or something like that.
+      console.log(error)
+      res.render('Errors/500')
     })
-    
     console.log('B', text)
-    
   } else {
     req.session.flash = { type: 'danger', text: 'Cant have an empty Snippet!' }
   }

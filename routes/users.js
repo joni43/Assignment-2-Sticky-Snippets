@@ -13,7 +13,6 @@ router.post('/register', function (req, res) {
   var password = req.body.password
 
   // Validation
-
   req.checkBody('username', 'Username is required').notEmpty()
   req.checkBody('password', 'Password is required').notEmpty()
 
@@ -43,13 +42,10 @@ router.get('/login', function (req, res) {
 })
 
 router.post('/login', function (req, res) {
-  // req.checkBody('username', 'Username is required').notEmpty()
-  //  req.checkBody('password', 'Password is required').notEmpty()
   User.findOne({ username: req.body.username }, function (err, user) {
     if (err) {
       return res.status(400).send()
     } if (!user) {
-      // Error message are not flashing when user not find. WHY?
       req.session.flash = {
         type: 'danger', text: 'Incorrect username!'
       }
@@ -70,26 +66,17 @@ router.post('/login', function (req, res) {
           req.session.user = user.username
           res.redirect('/snippy')
         }
-        console.log('--------------->', req.session.user)
-        // req.session.user = user.username
-        // console.log(isMatch)
-        // console.log(user.password)
       })
     }
   })
 })
-router.get('/logout', function (req, res) {
-  console.log(res)
-
+router.get('/logout', function (req, res, next) {
   if (req.session) {
-    console.log(req.session)
     // delete session object
-    req.session.destroy(function (err) {
-      if (err) {
-        return next (err)
+    req.session.destroy(function (error) {
+      if (error) {
+        return next(error)
       } else {
-        console.log(req.session)
-        console.log('U logged out!')
         return res.redirect('/')
       }
     })

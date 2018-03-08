@@ -14,13 +14,17 @@ var routes = require('./routes/index')
 var users = require('./routes/users')
 const snippet = require('./routes/snippet')
 
+// Helmet
+var helmet = require('helmet')
+
 var db = mongoose.connection
 // Init App
 var app = express()
-
-// View engine
+// Helmet. Protect from XXS attack.
+app.use(helmet.noCache())
 // View Engine
 app.set('views', path.join(__dirname, 'views'))
+
 app.engine('handlebars', exphbs({defaultLayout: 'main'}))
 app.set('view engine', 'handlebars')
 
@@ -48,7 +52,6 @@ app.use(session({
 app.use(expressValidator({
 }))
 app.use((req, res, next) => {
-  // if there's a flash message in the session request, make it available in the response, then delete it
   res.locals.flash = req.session.flash
   delete req.session.flash
   next()
@@ -58,10 +61,18 @@ app.use((req, res, next) => {
 app.use('/', routes, users, snippet)
 app.use('/users', users)
 
+// Error handler.
+app.use(express.static(path.join(__dirname, 'Errors')))
+app.use(function (req, res) {
+  res.send('404.: Page not Found', 404)
+})
+app.use(function (req, res) {
+  res.send('500.: internal error', 500)
+})
 // --------------------------- Start APP 4000---------------------------------------
 // Set Port
 app.listen(process.env.PORT || 2000, function () {
-  console.log('Connected! Well done...Neo')
+  console.log('Connected! Well done...')
 })
 
 // ---------------------------DATABASE------------------------------------------------
@@ -77,5 +88,3 @@ db.on('error', function () {
 db.once('open', function () {
   console.log('Sucesfully connect to mongoDB')
 })
-
-

@@ -116,6 +116,7 @@ ul ul,
 ol ul,
 ul ol {
   margin-bottom: 0;
+  
 }
 
 dt {
@@ -3850,6 +3851,7 @@ tbody.collapse.show {
 }
 
 .nav-link {
+  padding-right: 30px;
   display: block;
   padding: 0.5rem 1rem;
 }
